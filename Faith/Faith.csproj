@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Content\obj\**" />
+    <Compile Remove="Content\ui\**" />
+    <EmbeddedResource Remove="Content\obj\**" />
+    <EmbeddedResource Remove="Content\ui\**" />
+    <None Remove="Content\obj\**" />
+    <None Remove="Content\ui\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\defaultFont.spritefont" />
+    <None Remove="Content\missingtex.png" />
+    <None Remove="Content\pixel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
+  </ItemGroup>
+</Project>
