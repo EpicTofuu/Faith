@@ -26,6 +26,7 @@ namespace Faith
         internal static float IMPORTANT_AND_INTERNAL_PHYSICS_SPEED_MODIFIER_YOU_DEFINETLY_SHOULDNT_BE_TOUCHING => 20f;
 
         internal static Texture2D MissingTex;
+        internal static Texture2D ErrorTex;
 
         #region window properties
 
@@ -114,7 +115,8 @@ namespace Faith
         {
             base.LoadContent();
 
-            MissingTex = Content.Load<Texture2D>("missingtex");
+            ErrorTex = Content.Load<Texture2D>("status/error");
+            MissingTex = Content.Load<Texture2D>("status/missing");
 
             updateWindowState();
             _spriteBatch = new SpriteBatch(GraphicsDevice);

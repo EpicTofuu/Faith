@@ -12,8 +12,8 @@ namespace Faith.GameTools.Tiles
     /// </summary>
     public class DrawableTileMap : Group
     {
-        public TileMap TileMap { get; protected set; }
-        public TileHead TileHead { get; protected set; }
+        public TileMap TileMap;
+        public TileHead TileHead;
 
         private List<Tile> added;
         private FGame game;
@@ -30,14 +30,21 @@ namespace Faith.GameTools.Tiles
         public override void Load(ContentManager content)
         {
             base.Load(content);
-            TileHead.LoadAllTextures(game.GraphicsDevice);
-            Reload();
+            //TileHead.LoadAllTextures(game.GraphicsDevice);
+            TileHead.Load(content);
+            Reload(true);
         }
 
-        public void Reload()
+        public virtual void Reload(bool reloadAll=false)
         {
             if (TileMap.Data.Tiles == null)
                 return;
+
+            if (reloadAll)
+            {
+                Clear();
+                added.Clear();
+            }
 
             foreach (Tile tile in TileMap.Data.Tiles)
             {

@@ -14,6 +14,8 @@ namespace Faith.Graphics.Shapes
         public int OutlineWidth;
         public Color OutlineCol;
 
+        public Box() { }
+
         public Box(int x, int y, int w, int h)
             : this(new Vector2(x, y), new Vector2(w, h))
         { }

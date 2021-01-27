@@ -1,11 +1,11 @@
 ﻿using Faith.Graphics.Groups;
 using System;
 using System.Linq;
-using System.Windows;
-using Microsoft.Xna.Framework;
 using Faith.Graphics.Shapes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using TextCopy;
 
 namespace Faith.Graphics.UI
 {
@@ -36,6 +36,7 @@ namespace Faith.Graphics.UI
 
             oldState = Keyboard.GetState();
         }
+
         public override void Load(ContentManager content)
         {
             base.Load(content);
@@ -86,25 +87,45 @@ namespace Faith.Graphics.UI
 
                 KeyboardState newState = Keyboard.GetState();
 
-                Keys[] pressedKeys = newState.GetPressedKeys();
-
-                //check if any of the previous update's keys are no longer pressed
-                foreach (Keys key in lastPressedKeys)
+                if (newState.IsKeyDown(Keys.LeftControl))
                 {
-                    if (!pressedKeys.Contains(key))
-                        OnKeyUp(key);
+                    if (newState.IsKeyDown(Keys.V) && oldState.IsKeyUp(Keys.V))
+                    {
+                        Text = ClipboardService.GetText().Replace("\n", "");
+                        updateText();
+                    }
+                    if (newState.IsKeyDown(Keys.C) && oldState.IsKeyUp(Keys.C))
+                    {
+                        ClipboardService.SetText(Text);
+                    }
+                    if (newState.IsKeyDown(Keys.X) && oldState.IsKeyUp(Keys.X))
+                    {
+                        ClipboardService.SetText(Text);
+                        Text = "";
+                        updateText();
+                    }
                 }
-
-                //check if the currently pressed keys were already pressed
-                foreach (Keys key in pressedKeys)
+                else
                 {
-                    if (!lastPressedKeys.Contains(key))
-                        OnKeyDown(key);
+                    Keys[] pressedKeys = newState.GetPressedKeys();
+
+                    //check if any of the previous update's keys are no longer pressed
+                    foreach (Keys key in lastPressedKeys)
+                    {
+                        if (!pressedKeys.Contains(key))
+                            OnKeyUp(key);
+                    }
+
+                    //check if the currently pressed keys were already pressed
+                    foreach (Keys key in pressedKeys)
+                    {
+                        if (!lastPressedKeys.Contains(key))
+                            OnKeyDown(key);
+                    }
+
+                    //save the currently pressed keys so we can compare on the next update
+                    lastPressedKeys = pressedKeys;
                 }
-
-                //save the currently pressed keys so we can compare on the next update
-                lastPressedKeys = pressedKeys;
-
                 oldState = newState;
             }
             else
@@ -144,14 +165,14 @@ namespace Faith.Graphics.UI
             }
             Text += addition;
             updateText();
-
-            OnTextChange?.Invoke();
         }
 
         private void updateText()
         {
             stext.Text = Text;
             cursor.X = X + stext.Width + 4;
+
+            OnTextChange?.Invoke();
         }
 
         private void OnKeyUp(Keys key)

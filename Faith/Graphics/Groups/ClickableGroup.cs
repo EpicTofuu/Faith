@@ -33,8 +33,6 @@ namespace Faith.Graphics.Groups
 
         public override void Update(GameTime time)
         {
-            base.Update(time);
-
             if (Usable)
             {
                 if (Holding)
@@ -89,6 +87,8 @@ namespace Faith.Graphics.Groups
                 }
                 oldState = newState;
             }
+
+            base.Update(time);
         }
     }
 }

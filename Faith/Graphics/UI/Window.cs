@@ -43,7 +43,7 @@ namespace Faith.Graphics.UI
                 Colour = Color.BlueViolet
             });
 
-            Add(closeButton = new Button("ui/close", "")
+            Add(closeButton = new Button("ui/close", "","") // what the fuck
             { 
                 Position = new Vector2 (BoundingBox.Right - 30, Y),
                 Scale = new Vector2 (30)

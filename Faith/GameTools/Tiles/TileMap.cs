@@ -33,17 +33,33 @@ namespace Faith.GameTools.Tiles
         {
             workingDir = wd;
 
-            Data = new TileMapData();
+            Data = new TileMapData()
+            { 
+                Tiles = new List<Tile>(),
+                Properties = new List<string>(),
+                Name = name
+            };
 
-            Data.Tiles = new List<Tile>();
-            Data.Properties = new List<string>();
-
-            Data.Name = name;
-
+            // TODO:
             //Data.Properties.Insert(0, $"tile map version {Game1.MapFileVersion}");
             //Data.Properties.Insert(1, "level by anon");
         }
-        
+
+        /// <summary>
+        /// Load level
+        /// </summary>
+        /// <param name="path"></param>
+        public TileMap(string path)
+        {
+            // infer the working directory
+            workingDir = Path.Combine(Path.GetDirectoryName(path), @"..\");
+
+            XmlSerializer ser = new XmlSerializer(typeof(TileMapData));
+            using (Stream reader = new FileStream(path, FileMode.Open))
+            {
+                Data = (TileMapData)ser.Deserialize(reader);
+            }
+        }
 
         public void Write()
         {

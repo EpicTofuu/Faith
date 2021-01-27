@@ -6,7 +6,6 @@ using Faith.Graphics.Groups;
 using Faith.Graphics.Shapes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
 
 namespace Faith.Graphics.UI
 {
@@ -14,14 +13,16 @@ namespace Faith.Graphics.UI
 
     public class SelectionMenu : ClickableGroup
     {
-        public event SelectionHandler OnSelect; // what the fuck why is it green?
+        public event SelectionHandler OnSelect; 
 
         private List<string> items;
         private List<Button> texts;
 
         public float HeightSpacing = 25;
 
-        Box backBox;
+        Box outlinebox;
+
+        public override Rectangle BoundingBox => outlinebox?.BoundingBox ?? new Rectangle (0,0,0,0);
 
         public SelectionMenu(string[] items)
             : this (items.ToList())
@@ -51,18 +52,19 @@ namespace Faith.Graphics.UI
             foreach (Button b in texts)
                 Add(b);
 
-            Add(backBox = new Box(Position, new Vector2(Width, HeightSpacing * items.Count), 1)
-            { 
-                Colour = new Color (0,0,0,0)
+            Add(outlinebox = new Box(Position, new Vector2(Width, HeightSpacing * items.Count), 1)
+            {
+                Colour = new Color(0, 0, 0, 0)
             });
+
 
             UpdateElements();
         }
 
         public void UpdateElements()
         {
-            backBox.Position = Position;
-            backBox.Height = HeightSpacing * items.Count;
+            outlinebox.Position = Position;
+            outlinebox.Height = HeightSpacing * items.Count;
 
             int i = 0;
             foreach (string selection in items)
@@ -87,6 +89,7 @@ namespace Faith.Graphics.UI
                     {
                         OnSelect?.Invoke(b.Label);
                         Visible = false;
+                        b.Clicked = false;
                     }
                 }
             }

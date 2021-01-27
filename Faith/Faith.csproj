@@ -22,5 +22,6 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
+    <PackageReference Include="TextCopy" Version="4.2.1" />
   </ItemGroup>
 </Project>
